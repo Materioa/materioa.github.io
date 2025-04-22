@@ -272,7 +272,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                   </div>
                 </div>
 
-                <div id="editorModeSeparator" class="verticalToolbarSeparator"></div>
+                <div id="editorModeSeparator" class="verticalToolbarSeparator" hidden></div>
 
                 <div class="toolbarHorizontalGroup hiddenMediumView">
                   <button id="printButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-print-button" hidden>
@@ -734,3 +734,21 @@ See https://github.com/adobe-type-tools/cmap-resources
     <div id="printContainer"></div>
   </body>
 </html>
+<!-- Addon - Show download on console call for @Materioa -->
+<script>
+  function download(show) {
+    const downloadButton = document.getElementById('downloadButton');
+    const secondaryDownloadButton = document.getElementById('secondaryDownload');
+    const editorModeSeparator = document.getElementById('editorModeSeparator');
+  
+    if (show) {
+      downloadButton.removeAttribute('hidden');
+      secondaryDownloadButton.removeAttribute('hidden');
+      editorModeSeparator.removeAttribute('hidden');
+    } else {
+      downloadButton.setAttribute('hidden', true);
+      secondaryDownloadButton.setAttribute('hidden', true);
+      editorModeSeparator.setAttribute('hidden', true);
+    }
+  }
+  </script>
