@@ -307,13 +307,13 @@ See https://github.com/adobe-type-tools/cmap-resources
 
                       </div>
 
-                      <div class="horizontalToolbarSeparator"></div>
+                      <div class="horizontalToolbarSeparator" hidden></div>
 
                       <button id="presentationMode" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-presentation-mode-button">
                         <span data-l10n-id="pdfjs-presentation-mode-button-label"></span>
                       </button>
 
-                      <a href="#" id="viewBookmark" class="toolbarButton labeled" tabindex="0" data-l10n-id="pdfjs-bookmark-button">
+                      <a href="#" id="viewBookmark" class="toolbarButton labeled" tabindex="0" data-l10n-id="pdfjs-bookmark-button" hidden>
                         <span data-l10n-id="pdfjs-bookmark-button-label"></span>
                       </a>
 
@@ -734,8 +734,27 @@ See https://github.com/adobe-type-tools/cmap-resources
     <div id="printContainer"></div>
   </body>
 </html>
+
+
 <!-- Addon - Show download on console call for @Materioa -->
 <script>
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+  }
+
+  function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  }
+
   function download(show) {
     const downloadButton = document.getElementById('downloadButton');
     const secondaryDownloadButton = document.getElementById('secondaryDownload');
@@ -745,10 +764,20 @@ See https://github.com/adobe-type-tools/cmap-resources
       downloadButton.removeAttribute('hidden');
       secondaryDownloadButton.removeAttribute('hidden');
       editorModeSeparator.removeAttribute('hidden');
+      setCookie('downloadVisible', 'true', 3); 
     } else {
       downloadButton.setAttribute('hidden', true);
       secondaryDownloadButton.setAttribute('hidden', true);
       editorModeSeparator.setAttribute('hidden', true);
+      setCookie('downloadVisible', 'false', 3); 
     }
   }
-  </script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const downloadVisible = getCookie('downloadVisible');
+    if (downloadVisible === 'true') {
+      download(true);
+    } else {
+      download(false);
+    }
+  });
+</script>
